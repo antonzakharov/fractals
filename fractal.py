@@ -5,20 +5,30 @@ import matplotlib.cm as cm
 import numpy as np
 import sys
 
-RESOLUTION = 1001
+RESOLUTION = 501
 SCALE = 1
 THRESHOLD = 2
 
 class Fractal:
-    def __init__(self, top, left, right, iterations):
+    def __init__(self, center, width, iterations):
         self.iterations = iterations
-        self._coordinates = Fractal.createCoordinateMatrix(top, left, right)
+        self._coordinates = Fractal.createCoordinateMatrix(center, width)
         self._results = None
 
     @staticmethod
-    def createCoordinateMatrix(top, left, right):
+    def createCoordinateMatrix(center, width):
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(complex)
-        interval = np.abs(right - left) / (RESOLUTION - 1)
+        interval = np.abs(width * 2) / (RESOLUTION - 1)
+
+        pixels_from_center = (RESOLUTION - 1) / 2
+
+        print(center)
+        print(center.imag, center.real)
+
+        top = np.abs(center.imag + interval * pixels_from_center)
+        left = center.real - interval * pixels_from_center
+
+        print(top, left)
 
         def generateMatrix():
             for row in range(RESOLUTION):
@@ -54,9 +64,9 @@ class Fractal:
         return
 
 class Julia(Fractal):
-    def __init__(self, top, left, right, iterations, c):
+    def __init__(self, center, width, iterations, c):
         self.c = c
-        super().__init__(top, left, right, iterations)
+        super().__init__(center, width, iterations)
 
     def create(self, verbose=False):
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(float)
@@ -65,16 +75,19 @@ class Julia(Fractal):
         print("Creating fractal...")
         print("------------------------")
 
-        for row in range(RESOLUTION):
-            if row % 100 == 0:
-                print(row)
-            for column in range(RESOLUTION):
-                temp_number = self._coordinates[row][column]
+        row_index = 0
+        col_index = 0
+        for row in self._coordinates:
+            for z in row:
+                temp_number = z
                 for i in range(self.iterations):
                     temp_number = temp_number ** 2 + c
                     if np.abs(temp_number).real > THRESHOLD:
                         break
-                temp_matrix[row][column] = np.abs(temp_number).real
+                temp_matrix[row_index][col_index] = np.abs(temp_number).real
+                col_index += 1
+            col_index = 0
+            row_index += 1
 
         if verbose == True:
             print(temp_matrix)
@@ -82,8 +95,8 @@ class Julia(Fractal):
         self._results = temp_matrix
 
 class Mandelbrot(Fractal):
-    def __init__(self, top, left, right, iterations):
-        super().__init__(top, left, right, iterations)
+    def __init__(self, center, width, iterations):
+        super().__init__(center, width, iterations)
 
     def create(self, verbose=False):
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(float)
@@ -114,13 +127,10 @@ class Mandelbrot(Fractal):
 
 def takeFirstInput():
     if len(sys.argv) == 1:
-        top = float(input("Top? "))
-        left = float(input("Left? "))
-        right = float(input("Right? "))
-        if right <= left:
-            raise ValueError("That's greater than your left value.")
+        center = complex(input("Center? "))
+        width = float(input("Width? "))
         iterations = int(input("Iterations? "))
-        return (top, left, right, iterations)
+        return (center, width, iterations)
     else:
         arguments = sys.argv.copy()
         arguments.pop(0)
