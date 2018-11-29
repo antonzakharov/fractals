@@ -20,17 +20,14 @@ class Fractal:
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(complex)
         interval = np.abs(right - left) / (RESOLUTION - 1)
 
-        print("------------------------")
-        print("Creating coords...")
-        print("------------------------")
-        for row in range(RESOLUTION):
-            if row % 100 == 0:
-                print(row)
-            for col in range(RESOLUTION):
-                temp_matrix[row][col] = ((top - interval * row) * 1j +
-                    (left + interval * col))
+        def generateMatrix():
+            for row in range(RESOLUTION):
+                if row % 100 == 0:
+                    print(row)
+                yield [((top - interval * row) * 1j +
+                    (left + interval * col)) for col in range(RESOLUTION)]
 
-        return temp_matrix
+        return generateMatrix()
 
     # creates magnitude graph from coordinate matrix
     def create(self, verbose=False):
@@ -95,17 +92,19 @@ class Mandelbrot(Fractal):
         print("Creating fractal...")
         print("------------------------")
 
-        for row in range(RESOLUTION):
-            if row % 100 == 0:
-                print(row)
-            for column in range(RESOLUTION):
+        row_index = 0
+        col_index = 0
+        for row in self._coordinates:
+            for c in row:
                 temp_number = 0
-                c = self._coordinates[row][column]
                 for i in range(self.iterations):
                     temp_number = temp_number ** 2 + c
                     if np.abs(temp_number).real > THRESHOLD:
                         break
-                temp_matrix[row][column] = np.abs(temp_number).real
+                temp_matrix[row_index][col_index] = np.abs(temp_number).real
+                col_index += 1
+            col_index = 0
+            row_index += 1
 
         if verbose == True:
             print(temp_matrix)
