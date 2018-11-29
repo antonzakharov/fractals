@@ -22,18 +22,19 @@ class Fractal:
 
         pixels_from_center = (RESOLUTION - 1) / 2
 
-        print(center)
-        print(center.imag, center.real)
-
         top = np.abs(center.imag + interval * pixels_from_center)
         left = center.real - interval * pixels_from_center
 
-        print(top, left)
+        print("------------------------")
+        print("Creating fractal...")
+        print("------------------------")
 
         def generateMatrix():
             for row in range(RESOLUTION):
-                if row % 100 == 0:
-                    print(row)
+                if row != 0 and row % (RESOLUTION - 1) == 0:
+                    print("100%")
+                elif row % 100 == 0:
+                    print("{}%".format(int((row / RESOLUTION) * 100)))
                 yield [((top - interval * row) * 1j +
                     (left + interval * col)) for col in range(RESOLUTION)]
 
@@ -70,10 +71,6 @@ class Julia(Fractal):
 
     def create(self, verbose=False):
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(float)
-        
-        print("------------------------")
-        print("Creating fractal...")
-        print("------------------------")
 
         row_index = 0
         col_index = 0
@@ -100,10 +97,6 @@ class Mandelbrot(Fractal):
 
     def create(self, verbose=False):
         temp_matrix = np.zeros((RESOLUTION, RESOLUTION)).astype(float)
-
-        print("------------------------")
-        print("Creating fractal...")
-        print("------------------------")
 
         row_index = 0
         col_index = 0
@@ -149,4 +142,6 @@ if __name__ == "__main__":
             first_fractal = Mandelbrot(*takeFirstInput())
         first_fractal.create(verbose=False)
         first_fractal.show(continuous=True)
+        print("------------------------")
         input("Zoom in?")
+        print("------------------------")
