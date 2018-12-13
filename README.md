@@ -1,5 +1,12 @@
 # fractals
 
-a quickly made and not really well optimized fractal generator (to learn python)
+simple fractal generators in a few languages I made while learning them
 
+### python
 run `./fractal.py` to start the program
+
+### c
+source files are in the `c` directory
+
+### images
+cool images made with the programs
