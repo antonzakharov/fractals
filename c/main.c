@@ -5,7 +5,7 @@
 #include <math.h>
 
 // Resolution across 1 row/column
-const int RESOLUTION = 100;
+const int RESOLUTION = 1000;
 const int PIXELS = RESOLUTION * RESOLUTION;
 // Width across center
 const float WIDTH = 4;
