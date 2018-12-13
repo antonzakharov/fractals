@@ -9,4 +9,4 @@ run `./fractal.py` to start the program
 source files are in the `c` directory
 
 ### images
-cool images made with the programs
+some images made with the programs
