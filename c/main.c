@@ -29,9 +29,11 @@ int main() {
   char *data;
   data = (char *)malloc(PIXELS * sizeof(char));
   for (int i = 0; i < PIXELS; i++) {
+    // convert position in array to complex
     double complex c = ((float)(i % RESOLUTION) / RESOLUTION)
-      * WIDTH - WIDTH / 2 + ((floor(i / RESOLUTION) / RESOLUTION)
-      * WIDTH - WIDTH / 2) * -I;
+      * WIDTH - WIDTH / 2 + creal(CENTER)
+      + ((floor(i / RESOLUTION) / RESOLUTION)
+      * WIDTH - WIDTH / 2 + cimag(CENTER)) * -I;
 
     data[i] = mandelbrot(&c);
   }
