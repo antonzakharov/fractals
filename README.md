@@ -9,7 +9,6 @@ run `./fractal.py` to start the program
 source files are in the `c` directory
 
 ## images
-some images made with the programs
 
 ![a fractal](images/python1.png)
 ![a fractal](images/python9.png)
