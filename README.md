@@ -2,11 +2,11 @@
 
 simple fractal generators in a few languages I made while learning them
 
-### python
+## python
 run `./fractal.py` to start the program
 
-### c
+## c
 source files are in the `c` directory
 
-### images
+## images
 some images made with the programs
