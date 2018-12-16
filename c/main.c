@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include <math.h>
 
+#define MAX_ITER 20
 // Resolution across 1 row/column
-const int RESOLUTION = 1000;
-const int PIXELS = RESOLUTION * RESOLUTION;
+#define RESOLUTION 1000
 // Width across center
-const float WIDTH = 4;
+#define WIDTH 4.0f
+
+const int PIXELS = RESOLUTION * RESOLUTION;
 const double complex CENTER = 0;
-const int  MAX_ITER = 20;
 
 static inline char mandelbrot(double complex *c) {
   double complex z = 0.0;

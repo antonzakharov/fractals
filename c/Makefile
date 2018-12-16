@@ -1,12 +1,12 @@
 src = $(wildcard *.c)
 obj = $(src:.c=.o)
 
-LDFLAGS = 
-CXXFLAGS = -std=c++11 -W -Wall 
+LDFLAGS = -lm
+CFLAGS = -W -Wall
 
 main: $(obj)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 .PHONY: clean
 clean:
-		rm -f $(obj) myprog
+	rm -f $(obj) myprog
