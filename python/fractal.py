@@ -136,8 +136,6 @@ if __name__ == "__main__":
         raise ValueError("Incorrect value")
     elif selection == 1:
         c = complex(input("c? "))
-        hello
-        hello
     while 1:
         if selection == 1:
             first_fractal = Julia(*takeRecurringInput(), c, *initial_input)
